@@ -4,11 +4,13 @@ export const APP_TITLE = 'Task Platform';
 export const API_BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL ?? 'http://localhost:3000';
 
+// Query keys for data fetching and caching using query tanstack
 export const QUERY_KEYS = {
   users: ['users'] as const,
   userTasks: (userId: number) => ['userTasks', userId] as const,
 } as const;
 
+// UI text constants
 export const UI_TEXT = {
   selectUser: 'User',
   createTask: 'Create task',
