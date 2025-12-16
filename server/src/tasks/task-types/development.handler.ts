@@ -5,6 +5,7 @@ import { TaskTypeHandler } from './task-type-handler';
 export class DevelopmentTaskHandler implements TaskTypeHandler {
   type = TaskType.DEVELOPMENT;
 
+  // Final status for DEVELOPMENT tasks
   getFinalStatus() {
     return 4;
   }

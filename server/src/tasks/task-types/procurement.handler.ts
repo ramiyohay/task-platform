@@ -5,6 +5,7 @@ import { TaskTypeHandler } from './task-type-handler';
 export class ProcurementTaskHandler implements TaskTypeHandler {
   type = TaskType.PROCUREMENT;
 
+  // Final status for PROCUREMENT tasks
   getFinalStatus() {
     return 3;
   }
