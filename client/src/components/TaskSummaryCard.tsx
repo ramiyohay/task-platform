@@ -16,7 +16,9 @@ export function TaskSummaryCard({ task, onOpen }: { task: Task; onOpen: () => vo
       <div className="task-meta">
         <div className="task-line">
           <span className="muted">Status</span>
-          <span>{getStatusLabel(task.type, task.status)} ({task.status})</span>
+          <span>
+            {getStatusLabel(task.type, task.status)} ({task.status})
+          </span>
         </div>
         <div className="task-line">
           <span className="muted">Assigned</span>

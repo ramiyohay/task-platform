@@ -1,8 +1,7 @@
 export const APP_TITLE = 'Task Platform';
 
 // Base URL for API requests, configurable via environment variable
-export const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_BASE_URL ?? 'http://localhost:3000';
+export const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL ?? 'http://localhost:3000';
 
 // Query keys for data fetching and caching using query tanstack
 export const QUERY_KEYS = {

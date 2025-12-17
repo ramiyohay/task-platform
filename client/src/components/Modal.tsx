@@ -16,13 +16,13 @@ export function Modal({
 }) {
   useEffect(() => {
     if (!open) return;
-    
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
 
     window.addEventListener('keydown', onKey);
-    
+
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
@@ -33,7 +33,9 @@ export function Modal({
       <div className="modal" onMouseDown={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div className="modal-title">{title}</div>
-          <button className="icon-btn" onClick={onClose} aria-label="Close">✕</button>
+          <button className="icon-btn" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
         </div>
         <div className="modal-body">{children}</div>
         {footer ? <div className="modal-footer">{footer}</div> : null}

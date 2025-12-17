@@ -15,7 +15,12 @@ export function createTask(type: TaskType, userId: number) {
 }
 
 // change the status of a task with provided data and next user assignment
-export function changeStatus(taskId: number, status: number, data: Record<string, any>, nextUserId: number) {
+export function changeStatus(
+  taskId: number,
+  status: number,
+  data: Record<string, any>,
+  nextUserId: number,
+) {
   return api<Task>(`/tasks/${taskId}/status`, {
     method: 'PATCH',
     body: JSON.stringify({ status, data, nextUserId }),

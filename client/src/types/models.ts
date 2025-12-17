@@ -1,5 +1,5 @@
 // New type definition can be added here
-export enum TaskType { 
+export enum TaskType {
   PROCUREMENT = 'PROCUREMENT',
   DEVELOPMENT = 'DEVELOPMENT',
 }

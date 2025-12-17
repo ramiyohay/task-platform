@@ -14,9 +14,11 @@ docker compose up -d
 ```
 
 ### 1b. Kill PostgreSQL (Docker)
+
 ```bash
 docker compose down -v
 ```
+
 ---
 
 ### 2. Run the backend
@@ -28,6 +30,7 @@ npm run start
 ```
 
 Backend runs at:
+
 ```
 http://localhost:3000
 ```
@@ -43,6 +46,7 @@ npm run dev
 ```
 
 Frontend runs at:
+
 ```
 http://localhost:5173
 ```
@@ -81,6 +85,7 @@ http://localhost:5173
 ## Task Workflows
 
 ### PROCUREMENT
+
 1. Created
 2. Supplier offers received
    - priceQuotes: string[] (exactly 2)
@@ -88,6 +93,7 @@ http://localhost:5173
    - receipt: string
 
 ### DEVELOPMENT
+
 1. Created
 2. Specification completed
    - spec: string
@@ -103,6 +109,7 @@ All workflow rules are validated by the backend.
 ## Tech Stack
 
 ### Frontend
+
 - React 18
 - TypeScript
 - Vite
@@ -110,12 +117,14 @@ All workflow rules are validated by the backend.
 - Plain CSS (dark theme)
 
 ### Backend
+
 - NestJS
 - TypeScript
 - REST API
 - TypeORM - for PostgresSQL
 
 ### Database
+
 - PostgreSQL (Docker)
 
 ---
@@ -123,10 +132,12 @@ All workflow rules are validated by the backend.
 ## Endpoints
 
 ### Users
+
 - GET /users – fetch all users
 - GET /users/:id/tasks – fetch tasks assigned to a user
 
 ### Tasks
+
 - POST /tasks – create a task
 - PATCH /tasks/:id/status – save / forward / back task status
 - POST /tasks/:id/close – close a task

@@ -11,7 +11,7 @@ export class TaskTypeRegistry {
   private handlers = new Map<TaskType, TaskTypeHandler>();
 
   constructor() {
-    [new ProcurementTaskHandler(), new DevelopmentTaskHandler()].forEach(h =>
+    [new ProcurementTaskHandler(), new DevelopmentTaskHandler()].forEach((h) =>
       this.handlers.set(h.type, h),
     );
   }

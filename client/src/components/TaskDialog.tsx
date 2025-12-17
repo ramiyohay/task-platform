@@ -1,15 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-import type { Task, TaskType, User } from "../types/models";
-import { UI_TEXT } from "../constants/app";
-import {
-  getFinalStatus,
-  getRequiredFields,
-  getStatusLabel,
-} from "../constants/taskDefinitions";
-import { Button } from "./Button";
-import { Modal } from "./Modal";
+import { useEffect, useMemo, useState } from 'react';
+import type { Task, TaskType, User } from '../types/models';
+import { UI_TEXT } from '../constants/app';
+import { getFinalStatus, getRequiredFields, getStatusLabel } from '../constants/taskDefinitions';
+import { Button } from './Button';
+import { Modal } from './Modal';
 
-type Mode = { kind: "create" } | { kind: "edit" };
+type Mode = { kind: 'create' } | { kind: 'edit' };
 
 export function TaskDialog({
   open,
@@ -31,53 +27,36 @@ export function TaskDialog({
   busy: boolean;
   onClose: () => void;
   onCreate: (type: TaskType, userId: number) => Promise<Task>;
-  onSave: (
-    taskId: number,
-    data: Record<string, any>,
-    nextUserId: number
-  ) => Promise<Task>;
-  onForward: (
-    taskId: number,
-    data: Record<string, any>,
-    nextUserId: number
-  ) => Promise<Task>;
-  onBack: (
-    taskId: number,
-    data: Record<string, any>,
-    nextUserId: number
-  ) => Promise<Task>;
+  onSave: (taskId: number, data: Record<string, any>, nextUserId: number) => Promise<Task>;
+  onForward: (taskId: number, data: Record<string, any>, nextUserId: number) => Promise<Task>;
+  onBack: (taskId: number, data: Record<string, any>, nextUserId: number) => Promise<Task>;
   onCloseTask: (taskId: number) => Promise<Task>;
 }) {
-  const isCreate = mode.kind === "create";
+  const isCreate = mode.kind === 'create';
   const isClosed = task?.isClosed ?? false;
-  const [createType, setCreateType] = useState<TaskType>(
-    "PROCUREMENT" as TaskType
-  );
+  const [createType, setCreateType] = useState<TaskType>('PROCUREMENT' as TaskType);
 
-  const [createUserId, setCreateUserId] = useState<number | "">("");
+  const [createUserId, setCreateUserId] = useState<number | ''>('');
   const [data, setData] = useState<Record<string, any>>({});
-  const [nextUserId, setNextUserId] = useState<number | "">("");
+  const [nextUserId, setNextUserId] = useState<number | ''>('');
 
   // reset/sync when opening
   useEffect(() => {
     if (!open) return;
     if (isCreate) {
-      setCreateType("PROCUREMENT" as TaskType);
-      setCreateUserId("");
+      setCreateType('PROCUREMENT' as TaskType);
+      setCreateUserId('');
       setData({});
-      setNextUserId("");
+      setNextUserId('');
       return;
     }
     if (task) {
       setData(task.customData ?? {});
-      setNextUserId(task.assignedUser?.id ?? users[0]?.id ?? "");
+      setNextUserId(task.assignedUser?.id ?? users[0]?.id ?? '');
     }
   }, [open, isCreate, task?.id]);
 
-  const finalStatus = useMemo(
-    () => (task ? getFinalStatus(task.type) : 1),
-    [task?.type]
-  );
+  const finalStatus = useMemo(() => (task ? getFinalStatus(task.type) : 1), [task?.type]);
   const canForward = !!task && task.status < finalStatus;
   const canBack = !!task && task.status > 1;
   const canClose = !!task && task.status === finalStatus && !task.isClosed;
@@ -87,21 +66,20 @@ export function TaskDialog({
   }, [task?.id, task?.status, task?.type, canForward]);
 
   // silent validation
-  const hasNextUser = typeof nextUserId === "number";
+  const hasNextUser = typeof nextUserId === 'number';
 
   // validate required fields for forwarding to next status
   const forwardValid = useMemo(() => {
     if (!task || !canForward || !hasNextUser) return false;
 
     for (const f of fieldsForNext) {
-      if (f === "priceQuotes") {
+      if (f === 'priceQuotes') {
         const arr = data?.priceQuotes;
         if (!Array.isArray(arr) || arr.length !== 2) return false;
-        if (arr.some((v) => typeof v !== "string" || v.trim() === ""))
-          return false;
+        if (arr.some((v) => typeof v !== 'string' || v.trim() === '')) return false;
       } else {
         const v = data?.[f];
-        if (typeof v !== "string" || v.trim() === "") return false;
+        if (typeof v !== 'string' || v.trim() === '') return false;
       }
     }
 
@@ -115,7 +93,7 @@ export function TaskDialog({
   }, [task?.id, hasNextUser]);
 
   async function submitCreate() {
-    if (busy || createUserId === "") return;
+    if (busy || createUserId === '') return;
     await onCreate(createType, createUserId);
   }
 
@@ -140,9 +118,7 @@ export function TaskDialog({
     onClose();
   }
 
-  const title = isCreate
-    ? UI_TEXT.createTask
-    : `${UI_TEXT.editTask} #${task?.id ?? ""}`;
+  const title = isCreate ? UI_TEXT.createTask : `${UI_TEXT.editTask} #${task?.id ?? ''}`;
 
   return (
     <Modal
@@ -156,10 +132,7 @@ export function TaskDialog({
           </Button>
 
           {isCreate ? (
-            <Button
-              onClick={submitCreate}
-              disabled={busy || createUserId === ""}
-            >
+            <Button onClick={submitCreate} disabled={busy || createUserId === ''}>
               {UI_TEXT.createTask}
             </Button>
           ) : (
@@ -232,9 +205,7 @@ export function TaskDialog({
         <div className="grid">
           <div className="row">
             <div className="pill">{task.type}</div>
-            <div
-              className={`pill ${task.isClosed ? "pill-closed" : "pill-open"}`}
-            >
+            <div className={`pill ${task.isClosed ? 'pill-closed' : 'pill-open'}`}>
               {task.isClosed ? UI_TEXT.closed : UI_TEXT.open}
             </div>
           </div>
@@ -268,10 +239,10 @@ export function TaskDialog({
           {fieldsForNext.length > 0 ? (
             <div className="section">
               {fieldsForNext.map((f) => {
-                if (f === "priceQuotes") {
+                if (f === 'priceQuotes') {
                   const quotes: string[] = Array.isArray(data.priceQuotes)
                     ? data.priceQuotes
-                    : ["", ""];
+                    : ['', ''];
 
                   return (
                     <div className="section" key="priceQuotes">
@@ -280,7 +251,7 @@ export function TaskDialog({
                           <span className="label">{`Quote ${i + 1}`}</span>
                           <input
                             className="input"
-                            value={quotes[i] ?? ""}
+                            value={quotes[i] ?? ''}
                             onChange={(e) => {
                               const next = [...quotes];
                               next[i] = e.target.value;
@@ -303,7 +274,7 @@ export function TaskDialog({
                     <span className="label">{f}</span>
                     <input
                       className="input"
-                      value={String(data?.[f] ?? "")}
+                      value={String(data?.[f] ?? '')}
                       onChange={(e) =>
                         setData((prev) => ({
                           ...(prev ?? {}),

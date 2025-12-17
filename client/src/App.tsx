@@ -1,24 +1,23 @@
-import { useMemo, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { APP_TITLE, QUERY_KEYS, UI_TEXT } from "./constants/app";
-import type { Task, TaskType } from "./types/models";
-import { useUsers } from "./hooks/useUsers";
-import { useUserTasks } from "./hooks/useUserTasks";
-import { createTask, changeStatus, closeTask } from "./api/tasks";
-import { Button } from "./components/Button";
-import { TaskSummaryCard } from "./components/TaskSummaryCard";
-import { TaskDialog } from "./components/TaskDialog";
-import { ServerStatus } from "./components/ServerStatus";
+import { APP_TITLE, QUERY_KEYS, UI_TEXT } from './constants/app';
+import type { Task, TaskType } from './types/models';
+import { useUsers } from './hooks/useUsers';
+import { useUserTasks } from './hooks/useUserTasks';
+import { createTask, changeStatus, closeTask } from './api/tasks';
+import { Button } from './components/Button';
+import { TaskSummaryCard } from './components/TaskSummaryCard';
+import { TaskDialog } from './components/TaskDialog';
+import { ServerStatus } from './components/ServerStatus';
 
 export default function App() {
   const qc = useQueryClient();
   const { data: users = [], isLoading: usersLoading } = useUsers();
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
-  const { data: tasks = [], isLoading: tasksLoading } =
-    useUserTasks(currentUserId);
+  const { data: tasks = [], isLoading: tasksLoading } = useUserTasks(currentUserId);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [mode, setMode] = useState<"create" | "edit">("create");
+  const [mode, setMode] = useState<'create' | 'edit'>('create');
   const [activeTaskId, setActiveTaskId] = useState<number | null>(null);
 
   const activeTask: Task | null = useMemo(() => {
@@ -29,8 +28,7 @@ export default function App() {
 
   // Mutations for creating and updating tasks
   const createMut = useMutation({
-    mutationFn: ({ type, userId }: { type: TaskType; userId: number }) =>
-      createTask(type, userId),
+    mutationFn: ({ type, userId }: { type: TaskType; userId: number }) => createTask(type, userId),
     onSuccess: (created) => {
       if (currentUserId !== null) {
         qc.setQueryData<Task[]>(QUERY_KEYS.userTasks(currentUserId), (prev) => [
@@ -39,7 +37,7 @@ export default function App() {
         ]);
       }
 
-      setMode("edit");
+      setMode('edit');
       setActiveTaskId(created.id);
     },
   });
@@ -96,13 +94,13 @@ export default function App() {
     closeMut.isPending;
 
   function openCreate() {
-    setMode("create");
+    setMode('create');
     setActiveTaskId(null);
     setDialogOpen(true);
   }
 
   function openEdit(taskId: number) {
-    setMode("edit");
+    setMode('edit');
     setActiveTaskId(taskId);
     setDialogOpen(true);
   }
@@ -118,7 +116,7 @@ export default function App() {
 
             <select
               className="select"
-              value={currentUserId ?? ""}
+              value={currentUserId ?? ''}
               onChange={(e) => setCurrentUserId(Number(e.target.value) || null)}
               disabled={usersLoading}
             >
@@ -133,14 +131,9 @@ export default function App() {
             </select>
           </label>
 
-          <Button
-            onClick={openCreate}
-            disabled={currentUserId === null || usersLoading}
-          >
+          <Button onClick={openCreate} disabled={currentUserId === null || usersLoading}>
             {UI_TEXT.createTask}
           </Button>
-
-          
         </div>
       </div>
 
@@ -151,11 +144,7 @@ export default function App() {
       ) : (
         <div className="list">
           {tasks.map((t) => (
-            <TaskSummaryCard
-              key={t.id}
-              task={t}
-              onOpen={() => openEdit(t.id)}
-            />
+            <TaskSummaryCard key={t.id} task={t} onOpen={() => openEdit(t.id)} />
           ))}
           {tasks.length === 0 ? <div className="muted">No tasks</div> : null}
         </div>
@@ -164,7 +153,7 @@ export default function App() {
       <TaskDialog
         open={dialogOpen}
         mode={{ kind: mode }}
-        task={mode === "edit" ? activeTask : null}
+        task={mode === 'edit' ? activeTask : null}
         users={users}
         busy={busy}
         onClose={() => setDialogOpen(false)}
@@ -175,7 +164,7 @@ export default function App() {
         onSave={async (taskId, data, nextUserId) => {
           const t = tasks.find((x) => x.id === taskId);
 
-          if (!t) throw new Error("Task missing");
+          if (!t) throw new Error('Task missing');
           // save without moving = PATCH same status
           // mutateAsync runs mutationFn with given args
           return await statusMut.mutateAsync({
@@ -188,7 +177,7 @@ export default function App() {
         onForward={async (taskId, data, nextUserId) => {
           const t = tasks.find((x) => x.id === taskId);
 
-          if (!t) throw new Error("Task missing");
+          if (!t) throw new Error('Task missing');
 
           return await statusMut.mutateAsync({
             taskId,
@@ -200,7 +189,7 @@ export default function App() {
         onBack={async (taskId, data, nextUserId) => {
           const t = tasks.find((x) => x.id === taskId);
 
-          if (!t) throw new Error("Task missing");
+          if (!t) throw new Error('Task missing');
 
           return await statusMut.mutateAsync({
             taskId,

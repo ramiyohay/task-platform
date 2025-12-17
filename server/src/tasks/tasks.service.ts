@@ -19,7 +19,7 @@ export class TasksService {
   // Create a new task assigned to a user
   async create(type: TaskType, userId: number) {
     const user = await this.userRepo.findOneBy({ id: userId });
-    
+
     if (!user) throw new NotFoundException('User not found');
 
     const task = this.taskRepo.create({
@@ -43,7 +43,7 @@ export class TasksService {
     if (!task) throw new NotFoundException('Task not found');
 
     const nextUser = await this.userRepo.findOneBy({ id: nextUserId });
-    
+
     if (!nextUser) throw new NotFoundException('Next user not found');
 
     this.engine.changeStatus(task, status, data, nextUser);
@@ -53,7 +53,7 @@ export class TasksService {
   // Close a task if it has reached its final status
   async close(taskId: number) {
     const task = await this.taskRepo.findOneBy({ id: taskId });
-    
+
     if (!task) throw new NotFoundException('Task not found');
 
     this.engine.closeTask(task);

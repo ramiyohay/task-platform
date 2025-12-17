@@ -13,7 +13,7 @@ export class TaskEngineService {
     if (newStatus > task.status + 1) throw new Error('Cannot skip status');
 
     const handler = this.registry.get(task.type);
-    
+
     handler.validateStatusData(newStatus, data);
 
     task.status = newStatus;
