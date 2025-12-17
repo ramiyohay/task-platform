@@ -5,6 +5,7 @@ import { User } from './users/user.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
 import { SeedService } from './database/seed.service';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [ // Configure TypeORM with PostgreSQL
@@ -23,6 +24,7 @@ import { SeedService } from './database/seed.service';
     UsersModule,
   ],
   providers: [SeedService],
+  controllers: [HealthController],
 })
 
 export class AppModule {}
