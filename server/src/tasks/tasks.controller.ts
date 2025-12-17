@@ -1,9 +1,9 @@
-import { Controller, Post, Patch, Param, Body } from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { TaskType } from './task.entity';
+import { Controller, Post, Patch, Param, Body } from "@nestjs/common";
+import { TasksService } from "./tasks.service";
+import { TaskType } from "./task.entity";
 
 // Controller to manage task-related endpoints
-@Controller('tasks')
+@Controller("tasks")
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
@@ -14,22 +14,22 @@ export class TasksController {
   }
 
   // Change the status of a task
-  @Patch(':id/status')
+  @Patch(":id/status")
   changeStatus(
-    @Param('id') id: string,
-    @Body() body: { status: number; data: any; nextUserId: number },
+    @Param("id") id: string,
+    @Body() body: { status: number; data: any; nextUserId: number }
   ) {
     return this.tasksService.changeStatus(
       Number(id),
       body.status,
       body.data,
-      body.nextUserId,
+      body.nextUserId
     );
   }
 
   // Close a task
-  @Post(':id/close')
-  close(@Param('id') id: string) {
+  @Post(":id/close")
+  close(@Param("id") id: string) {
     return this.tasksService.close(Number(id));
   }
 }
