@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './tasks/task.entity';
 import { User } from './users/user.entity';
@@ -18,6 +19,9 @@ import { HealthController } from './health/health.controller';
       database: 'tasks',
       entities: [Task, User],
       synchronize: true,
+    }),
+     ConfigModule.forRoot({
+      isGlobal: true, // we can access env variables globally
     }),
     TypeOrmModule.forFeature([User]),
     TasksModule,
