@@ -23,8 +23,8 @@ import { HealthController } from './health/health.controller';
     TasksModule,
     UsersModule,
   ],
-  providers: [SeedService],
-  controllers: [HealthController],
+  providers: [SeedService], // Service to seed the database
+  controllers: [HealthController], // Health check controller
 })
 
 export class AppModule {}

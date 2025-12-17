@@ -125,3 +125,21 @@ body{
 }
 .pill-open{background:rgba(16,185,129,0.14);border-color:rgba(16,185,129,0.25)}
 .pill-closed{background:rgba(148,163,184,0.14);border-color:rgba(148,163,184,0.25)}
+
+.status {
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.status-ok {
+  color: #22c55e;
+}
+
+.status-warn {
+  color: #eab308;
+}
+
+.status-error {
+  color: #ef4444;
+}
+
